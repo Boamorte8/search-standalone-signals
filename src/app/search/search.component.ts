@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, Signal, WritableSignal, computed, effect, signal } from '@angular/core';
+import { Component, Signal, WritableSignal, computed, effect, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DisplayComponent } from '../display/display.component';
+import { StateService } from '../state.service';
 import { DisplayTextComponent } from './../display-text/display-text.component';
 
 @Component({
@@ -31,6 +32,7 @@ import { DisplayTextComponent } from './../display-text/display-text.component';
 })
 export class SearchComponent {
   search: WritableSignal<string> = signal('');
+  service = inject(StateService);
 
   items = [
     'Apple',
@@ -60,5 +62,6 @@ export class SearchComponent {
 
   onSearch(value: string) {
     this.search.set(value);
+    this.service.search.set(value);
   }
 }

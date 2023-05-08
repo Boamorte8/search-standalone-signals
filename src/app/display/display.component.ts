@@ -6,7 +6,10 @@ import { ChangeDetectionStrategy, Component, Input, WritableSignal } from '@angu
   standalone: true,
   imports: [CommonModule],
   template: `
-    <p>Searching: {{ text() }}</p>
+    <div class="container">
+      <h3>From Display component:</h3>
+      <p>Searching: {{ text() }}</p>
+    </div>
   `,
   styleUrls: ['./display.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
