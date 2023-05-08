@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, Signal, WritableSignal, computed, signal } from '@angular/core';
+import { Component, Signal, WritableSignal, computed, effect, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { DisplayComponent } from '../display/display.component';
+import { DisplayTextComponent } from './../display-text/display-text.component';
 
 @Component({
   selector: 'app-search',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, DisplayComponent, DisplayTextComponent],
   template: `
     <div class="max-w-sm m-auto">
       <header class="py-4 text-center">
@@ -13,6 +15,9 @@ import { FormsModule } from '@angular/forms';
           Search Vegetables
         </h1>
       </header>
+      <app-display [text]="search" />
+      <app-display-text [text]="search()" />
+
       <main class="flex flex-col items-center">
         <input type="text" [ngModel]="search()" (ngModelChange)="onSearch($event)" placeholder="Search" class="my-4" />
         <ul *ngIf="filteredItems().length">
@@ -29,19 +34,29 @@ export class SearchComponent {
 
   items = [
     'Apple',
+    'Avocado',
     'Banana',
     'Blackberry',
     'Blueberry',
     'Cherry',
     'Durian',
     'Elderberry',
+    'Mango',
     'Pasion fruit',
+    'Potato',
+    'Tomato',
 
   ];
 
   filteredItems: Signal<string[]> = computed(() => this.items.filter((item) =>
     item.toLowerCase().includes(this.search().toLowerCase())
   ));
+
+  constructor() {
+    effect(() => {
+      console.log(`The search is: ${this.search()}`);
+    });
+  }
 
   onSearch(value: string) {
     this.search.set(value);
